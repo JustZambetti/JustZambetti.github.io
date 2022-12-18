@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:wght@700&display=swap"
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css?family=Akshar&display=swap"
       rel="stylesheet"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Inter&display=swap"
-      rel="stylesheet"
-    />
-    <title>ZambettiGiorgio.com</title>
   </head>
   <body>
     <div class="v1_2">
       <div class="v11_7">
         <div class="v11_5"></div>
-        <div class="v10_3"></div>
+        <a target="_blank" href="https://github.com/JustZambetti">
+          <div class="v10_3"></div>
+        </a>
       </div>
-      <span class="v2_4">ZambettiGiorgio.com</span>
+      <span class="v2_4">ZambettiGiorgio</span><span class="v12_9">.com</span>
       <div class="v5_2">
-        <span class="v2_8">“</span>
-        <div class="v2_9"></div>
-        <div class="v5_3"></div>
-        <span class="v2_5">I like algorithms</span
-        ><span class="v11_6">and cookies </span>
+        <div class="v12_11">
+          <span class="v2_8"><img src="images/Group 1.png" /></span>
+        </div>
+        <span class="v2_5">I like </span><span class="v12_12">algorithms</span
+        ><span class="v11_6">and </span><span class="v12_13">cookies</span>
       </div>
     </div>
   </body>
@@ -35,28 +42,20 @@
   }
   body {
     font-size: 14px;
-  }
-  .v1_2 {
-    width: 100%;
-    height: 1024px;
+    padding: 0;
     background: rgba(241, 191, 60, 1);
-    opacity: 1;
-    position: relative;
-    top: 0px;
-    left: 0px;
     overflow: hidden;
   }
   .v11_7 {
     width: 495px;
     height: 107px;
-    background: url("../images/v11_7.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
     opacity: 1;
     position: absolute;
     top: 74px;
-    left: 242px;
+    right: -100px;
     overflow: hidden;
   }
   .v11_5 {
@@ -76,7 +75,7 @@
   .v10_3 {
     width: 64px;
     height: 62px;
-    background: url("../images/v10_3.png");
+    background: url("images/github-mark-white.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -87,16 +86,31 @@
     overflow: hidden;
   }
   .v2_4 {
-    width: 804px;
-    color: url("../images/v2_4.png");
+    width: 800px;
+    color: rgba(248, 250, 255, 1);
     position: absolute;
     top: 41px;
     left: 131px;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 96px;
+    opacity: 1;
+    text-align: left;
+  }
+  .v12_9 {
+    width: 76px;
+    color: rgba(27, 26, 32, 1);
+    position: absolute;
+    top: 104px;
+    left: 910px;
+    font-family: Inter;
+    font-weight: Semi Bold;
+    font-size: 32px;
     opacity: 1;
     text-align: left;
   }
   .v5_2 {
-    width: 403px;
+    width: 469px;
     height: 330px;
     background: url("../images/v5_2.png");
     background-repeat: no-repeat;
@@ -108,12 +122,22 @@
     left: 683px;
     overflow: hidden;
   }
-  .v2_8 {
-    width: 157px;
-    color: rgba(26, 25, 32, 1);
+  .v12_11 {
+    width: 403px;
+    height: 330px;
+    background: url("../images/v12_11.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
     position: absolute;
     top: 0px;
-    left: 123px;
+    left: 0px;
+    overflow: hidden;
+  }
+  .v2_8 {
+    color: rgba(26, 25, 32, 1);
+    position: absolute;
     font-family: Akshar;
     font-weight: Bold;
     font-size: 300px;
@@ -139,18 +163,32 @@
     left: 134px;
   }
   .v2_5 {
-    width: 376px;
-    color: url("../images/v2_5.png");
+    width: 110px;
+    color: rgba(26, 25, 32, 1);
     position: absolute;
     top: 142px;
     left: 21px;
+    font-family: Inter;
+    font-weight: Bold;
     font-size: 48px;
     opacity: 1;
-    text-align: center;
+    text-align: left;
+  }
+  .v12_12 {
+    width: 259px;
+    color: rgba(249, 250, 255, 1);
+    position: absolute;
+    top: 142px;
+    left: 134px;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 48px;
+    opacity: 1;
+    text-align: left;
   }
   .v11_6 {
-    width: 189px;
-    color: url("../images/v11_6.png");
+    width: 220px;
+    color: rgba(26, 25, 32, 1);
     position: absolute;
     top: 188px;
     left: 214px;
@@ -158,6 +196,18 @@
     font-weight: Bold;
     font-size: 32px;
     opacity: 1;
-    text-align: center;
+    text-align: left;
+  }
+  .v12_13 {
+    width: 189px;
+    color: rgba(249, 250, 255, 1);
+    position: absolute;
+    top: 188px;
+    left: 280px;
+    font-family: Inter;
+    font-weight: Bold;
+    font-size: 32px;
+    opacity: 1;
+    text-align: left;
   }
 </style>
