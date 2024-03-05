@@ -34,5 +34,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://justzambetti.github.io"
+  "homepage": "https://justzambetti.github.io",
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
 }
