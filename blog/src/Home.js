@@ -4,6 +4,5 @@ export function Home() {
             Welcome to my blog!<br/>
             <b>With an edit</b>
         </p>
-
     );
 }
