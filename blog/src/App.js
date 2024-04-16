@@ -4,6 +4,7 @@ import {ConvexHull} from "./ConvexHull";
 import {Random} from "./Random";
 import {Header} from "./Header";
 import {AppRouter, Routes} from "./Routes";
+import {BinomialDistribution} from "./pages/BinomialDistribution";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
 
 export const articles = {
     random: <Random/>,
-    convexHull: <ConvexHull/>
+    convexHull: <ConvexHull/>,
+    binomialDistribution: <BinomialDistribution/>
 }
 
 export default App;

@@ -23,7 +23,7 @@ export function Header(){
             <Link to="/"> Articles </Link>
         </div>
         <div style = {{flex:3}}>
-            Zambetti Giorgio's blog [W.I.P]
+            Welcome to Zambetti Giorgio's blog [W.I.P]
         </div>
         <div style = {{flex:1}}>
 
