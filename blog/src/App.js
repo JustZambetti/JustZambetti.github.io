@@ -5,6 +5,7 @@ import {Random} from "./Random";
 import {Header} from "./Header";
 import {AppRouter, Routes} from "./Routes";
 import {BinomialDistribution} from "./pages/BinomialDistribution";
+import {MontecarloPiCalculator} from "./pages/MontecarloPiCalculator";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
 export const articles = {
     random: <Random/>,
     convexHull: <ConvexHull/>,
-    binomialDistribution: <BinomialDistribution/>
+    binomialDistribution: <BinomialDistribution/>,
+    montecarlo: <MontecarloPiCalculator/>,
 }
 
 export default App;
