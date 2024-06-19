@@ -8,8 +8,8 @@ import {
     backtrackingGrahamScan,
     getLowestPoint,
     setAngleToPoints, sortPointsByAngle
-} from "./helpFunctions";
-
+} from "../helpFunctions";
+//TODO: FIX THIS FILE. Currently it does not work :(
 function sketch(p) {
     let canvasWidth = 400
     let canvasHeight = 400
@@ -274,7 +274,7 @@ function sketch(p) {
     }
 }
 
-export function Home() {
+export function GrahamScanVisualization() {
     const p5ContainerRef = useRef();
 
     useEffect(() => {

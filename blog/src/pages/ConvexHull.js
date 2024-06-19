@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import p5 from 'p5';
-import {convexHullGrahamScan, distance} from "./helpFunctions";
+import {convexHullGrahamScan, distance} from "../helpFunctions";
 
 function sketch(p) {
     const pointsCount = 5
