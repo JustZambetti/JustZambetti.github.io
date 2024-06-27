@@ -3,17 +3,19 @@ import p5 from 'p5';
 import {convexHullGrahamScan, distance} from "../helpFunctions";
 
 function sketch(p) {
-    const pointsCount = 5
-    const radius = 150
+    const pointsCount = 3
+    let radius
     const points = []
     let convexHull = []
     const pointRadius = 25
-    let canvasWidth = 400
-    let canvasHeight = 400
+    let canvasWidth
+    let canvasHeight
     const convexHullColor = "#7639bf"
 
-
     p.setup = () => {
+        canvasWidth = Math.min(400, p.displayWidth)
+        canvasHeight =  Math.min(400, p.displayHeight)
+        radius = Math.min(canvasWidth, canvasHeight)/4
         p.createCanvas(canvasWidth, canvasHeight)
         p.background(255)
         resetPoints()
