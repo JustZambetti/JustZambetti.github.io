@@ -16,11 +16,10 @@ function App() {
 }
 
 export const articles = {
-    random: <Random/>,
-    convexHull: <ConvexHull/>,
-    binomialDistribution: <BinomialDistribution/>,
-    montecarlo: <MontecarloPiCalculator/>,
-
+    convexHull: {route: <ConvexHull/>, title:"Convex Hull Editor",description:"A convex hull editor", src:"convex_hull.png"},
+    montecarlo: {route: <MontecarloPiCalculator/>, title:"Montecarlo Simulation",description:"Calculating Pi by choosing random points", src:"montecarlo.png"},
+    random: {route: <Random/>, title:"Linear Distribution", description:"A visualization of a linear distribution", src:"linear_distribution.png"},
+    binomialDistribution: {route: <BinomialDistribution/>, title:"Binomial Distribution",description:"A visualization of a binomial distribution", src:"binomial_distribution.png"},
 }
 
 export default App;

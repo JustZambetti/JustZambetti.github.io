@@ -1,6 +1,6 @@
 
 export const AboutMe = () => {
-    const text = "<space intentionally left blank for minimalistic purposes>"
+    //const text = "<space intentionally left blank for minimalistic purposes>"
     return <div style={{overflow:"hidden"}}>
         <h1 style={{fontFamily: "inter", fontWeight:500, textAlign:"center", marginTop:70}}>ABOUT ME</h1>
         <div style={{display:"flex", flexWrap:"wrap"}}>
@@ -10,11 +10,6 @@ export const AboutMe = () => {
             <div style={{flex:1}}>
                 <img style={{borderRadius: "50%", width:200, display:"block", margin:"auto",boxShadow:"0px 4px 4px"}} alt="Giorgio" src="/imgs/propic.jpg"/>
             </div>
-
-
-
         </div>
-
-        <p style={{color:"#787878", textAlign:"center", padding:"top", marginTop:200}}>{text}</p>
-    </div>
+    </div>    /* <p style={{color:"#787878", textAlign:"center", padding:"top", marginTop:200}}>{text}</p>*/
 }

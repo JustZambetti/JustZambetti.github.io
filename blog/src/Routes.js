@@ -12,7 +12,7 @@ export function AppRouter (){
                 <Route path = "/" element = {<Articles/>}/>
                 <Route path ="/AboutMe" element={<AboutMe/>}/>
                 { Object.keys(articles).map(key =>
-                    <Route path={"/"+key} element = {articles[key]}/>)
+                    <Route path={"/"+key} element = {articles[key].route}/>)
                 }
             </Routes>
         </Router>
