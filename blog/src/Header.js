@@ -12,7 +12,7 @@ export function Header(){
     const style = {
         padding: "6px",
         textAlign: "center",
-        background: "#72a9c4",
+        background: "#4b96ff",
         color: "white",
         fontSize: "30px",
         display: "flex",
@@ -42,7 +42,6 @@ export function Header(){
     return(
         <div className="Main">
             <Navbar
-                className="Navy"
                 collapseOnSelect
                 expand="full"
                 style={style}
@@ -51,9 +50,9 @@ export function Header(){
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link> <Link to="/AboutMe" style={littleTextStyle}> About Me </Link></Nav.Link>
-                        <Nav.Link> <Link to="/" style={littleTextStyle}> Articles </Link></Nav.Link>
-                        <Nav.Link href="/algorithmic_riddles.pdf" target="_blank"> <a style={littleTextStyle}>Algorithmic Riddles</a> </Nav.Link>
+                        <Nav.Link eventKey={1}> <Link to="/AboutMe" style={littleTextStyle}> About Me </Link></Nav.Link>
+                        <Nav.Link eventKey={2}> <Link to="/" style={littleTextStyle}> Articles </Link></Nav.Link>
+                        <Nav.Link eventKey={3}> <Link to="/AlgorithmicRiddles" style={littleTextStyle}> Algorithmic Riddles </Link></Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
