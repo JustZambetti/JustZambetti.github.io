@@ -6,7 +6,7 @@ export const AlgorithmicRiddles = () => {
     //const text = "<space intentionally left blank for minimalistic purposes>"
     return <div style={{overflow:"hidden"}}>
         <h1 style={{fontFamily: "inter", fontWeight:500, textAlign:"center", marginTop:70}}>ALGORITHMIC RIDDLES</h1>
-        <div style={{display:"flex", flexWrap:"wrap"}}>
+        <div style={{display:"flex", flexWrap:"wrap-reverse"}}>
             <div style={{flex:3, minWidth:"70%"}}>
                 <p style={{margin:"auto", maxWidth:"70%"}}>Algorithmic Riddles is a collection of famous riddles designed to improve your problem solving skills. It is just a draft and for now it includes:</p>
                 <ul style={{margin:"auto", maxWidth:"70%"}}>
@@ -31,7 +31,7 @@ export const AlgorithmicRiddles = () => {
                 size="lg"
                 onClick={() =>handleDownload("/algorithmic_riddles.pdf", "Algorithmic Riddles.pdf")}
             >
-                Download Algorithmic Riddles
+               <i className="bi bi-download"/> Download Now
             </Button>
         </div>
     </div>

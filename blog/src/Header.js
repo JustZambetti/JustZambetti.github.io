@@ -28,17 +28,7 @@ export function Header(){
     const littleTextStyle = {
         fontWeight:"500", textDecoration:"none", color:"inherit"
     }
-/*<div style={style}>
-        <div>
 
-
-
-            <Link to="/AboutMe" style={{...littleTextStyle,  fontWeight:"bold", marginLeft: "20px"}}> About Me </Link>
-            <a href={"/algorithmic_riddles.pdf"} target="_blank" rel="noreferrer" style={{...littleTextStyle,  fontWeight:"bold", marginLeft: "20px"}}> Algorithmic Riddles </a>
-        </div>
-    </div>
-
-        */
     return(
         <div className="Main">
             <Navbar
@@ -50,8 +40,8 @@ export function Header(){
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link eventKey={1}> <Link to="/AboutMe" style={littleTextStyle}> About Me </Link></Nav.Link>
-                        <Nav.Link eventKey={2}> <Link to="/" style={littleTextStyle}> Articles </Link></Nav.Link>
+                        <Nav.Link eventKey={1}> <Link to="/" style={littleTextStyle}> Articles </Link></Nav.Link>
+                        <Nav.Link eventKey={2}> <Link to="/AboutMe" style={littleTextStyle}> About Me </Link></Nav.Link>
                         <Nav.Link eventKey={3}> <Link to="/AlgorithmicRiddles" style={littleTextStyle}> Algorithmic Riddles </Link></Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

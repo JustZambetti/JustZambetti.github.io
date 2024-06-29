@@ -32,9 +32,9 @@ export const AboutMe = () => {
                 <p style={{margin:"auto", maxWidth:"75%"}}>I also like to do stay fit and have fun by playing sports like Ultimate Frisbee, Running and Hiking. I'm currently training to (eventually) run a marathon and I enjoy every bit of wilderness I can find.</p>
                 <p style={{margin:"auto", maxWidth:"75%"}}>Those in the photo below are my beloved cats: Zero and Kiwi ❤️❤️</p>
             </div>
-            <div style={{margin:"auto", overflow:"visible", paddingBottom:10}}>
-                <img style={{width:"14rem", display:"inline"}} alt="Hiking" src="/imgs/hiking.jpg"/>
-                <img style={{width:"14rem", display:"inline"}} alt="My cats" src="/imgs/cats.jpg"/>
+            <div style={{margin:"auto", display:"flex", flexWrap:"wrap", justifyContent:"space-around", overflow:"visible", paddingBottom:10}}>
+                <img style={{width:"14rem", margin:"auto", display:"block"}} alt="Hiking" src="/imgs/hiking.jpg"/>
+                <img style={{width:"14rem", margin:"auto", display:"block"}} alt="My cats" src="/imgs/cats.jpg"/>
             </div>
         </div>
 
