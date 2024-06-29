@@ -6,6 +6,7 @@ import {Header} from "./Header";
 import {AppRouter, Routes} from "./Routes";
 import {BinomialDistribution} from "./pages/BinomialDistribution";
 import {MontecarloPiCalculator} from "./pages/MontecarloPiCalculator";
+import {Maze} from "./pages/Maze";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
 }
 
 export const articles = {
+    maze: {route: <Maze/>, title: "Maze Generator", description:"A maze generator", scr:""},
     convexHull: {route: <ConvexHull/>, title:"Convex Hull Editor",description:"A convex hull editor", src:"convex_hull.png"},
     montecarlo: {route: <MontecarloPiCalculator/>, title:"Montecarlo Simulation",description:"Calculating Pi by choosing random points", src:"montecarlo.png"},
     random: {route: <Random/>, title:"Linear Distribution", description:"A visualization of a linear distribution", src:"linear_distribution.png"},
