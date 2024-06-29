@@ -10,7 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export function Header(){
     const style = {
-        padding: "6px",
+        padding: "0.3rem",
         textAlign: "center",
         background: "#4b96ff",
         color: "white",
@@ -20,10 +20,10 @@ export function Header(){
     }
 
     const zambettiGiorgioStyle = {
-        fontFamily: "inter", fontSize: "1.2em", color: "#EDEDED", fontWeight:"bold"
+        fontFamily: "inter", fontSize: "1.2rem", color: "#EDEDED", fontWeight:"bold", paddingLeft:"0.3em"
     }
     const dotComStyle = {
-        fontFamily: "inter", fontSize: "0.8em", color: "#1B1A20", fontWeight:"500", textDecoration:"none", verticalAlign:"middle"
+        fontFamily: "inter", fontSize: "0.8rem", color: "#1B1A20", fontWeight:"500", textDecoration:"none", verticalAlign:"middle"
     }
     const littleTextStyle = {
         fontWeight:"500", textDecoration:"none", color:"inherit"
