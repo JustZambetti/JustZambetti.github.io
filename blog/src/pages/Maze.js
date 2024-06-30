@@ -4,16 +4,16 @@ import {convexHullGrahamScan, distance} from "../helpFunctions";
 
 function sketch(p) {
     let canvasWidth, canvasHeight
-    let mazeWidth = 50, mazeHeight = 50
+    let mazeWidth = 20, mazeHeight = 20
     let cellSize
     let visited
+    let sol
+    let solution = []
 
     let columns, rows
     let offset = 5
-    p.setup = () => {
-        canvasWidth = Math.min(400, p.displayWidth)
-        canvasHeight = Math.min(400, p.displayHeight)
-        cellSize = Math.min(0.95*canvasWidth/mazeWidth, 0.95*canvasHeight/mazeHeight)
+
+    function mazeSetup(){
         visited = []
         columns = []
         rows = []
@@ -29,33 +29,59 @@ function sketch(p) {
             rows[i].push(true)
         }
 
+        visitedFindingSolution = [...visited]
+
         columns.push([])
         rows.push([])
         for (let j = 0; j <= mazeHeight; j++){
             columns[mazeWidth].push(true)
         }
         totalCellsCount = mazeWidth*mazeHeight
-
+        solution = []
         generateMaze(5,3)
+        rows[mazeWidth/2][mazeHeight] = false;
+        rows[mazeWidth/2][0] = false;
+        sol = findSolution(mazeWidth/2, 0, mazeWidth/2, mazeHeight-1, null)
+        while(sol){
+            solution.push({x: sol.x, y: sol.y})
+            sol = sol.next
+        }
 
         p.createCanvas(canvasWidth, canvasHeight)
         p.background(255)
+        drawMaze()
+    }
+    p.setup = () => {
+        let button = p.createButton("reset sketch");
+        button.mousePressed(() => {
+
+            mazeSetup()
+        });
+
+        canvasWidth = Math.min(400, p.displayWidth)
+        canvasHeight = Math.min(400, p.displayHeight)
+        cellSize = Math.min(0.95*canvasWidth/mazeWidth, 0.95*canvasHeight/mazeHeight)
+        mazeSetup()
+
     }
     p.draw = () => {
+    }
+
+    function drawMaze(){
         p.background(255)
         p.strokeWeight(2);
-        for (let i = 0; i < mazeWidth; i++)
-            for (let j = 0; j < mazeHeight; j++)
-                if(visited[i][j])
-                {
-                  /*  p.fill("#83f294")
-                    p.noStroke()
-                    p.rect(offset+i*cellSize, offset+j*cellSize, cellSize, cellSize)
-                    p.fill("red")
-                    p.stroke("black")
 
-                   */
-                }
+        for(let i = 0; i < solution.length; i++){
+            let s = solution[i]
+            p.fill("#83f294")
+            p.noStroke()
+            p.rect(offset+s.x*cellSize, offset+s.y*cellSize, cellSize, cellSize)
+
+        }
+        p.fill("red")
+        p.rect(offset+mazeWidth/2*cellSize, offset+0*cellSize, cellSize, cellSize)
+        p.rect(offset+mazeWidth/2*cellSize, offset+(mazeHeight-1)*cellSize, cellSize, cellSize)
+        p.stroke("black")
 
         for (let i = 0; i < mazeWidth; i++)
             for (let j = 0; j < mazeHeight; j++){
@@ -72,8 +98,10 @@ function sketch(p) {
         for (let i = 0; i < mazeWidth; i++)
             if(rows[i][mazeHeight])
                 p.line(offset+i*cellSize, offset+mazeHeight*cellSize, offset+(i+1)*cellSize, offset+mazeHeight*cellSize)
-
     }
+
+
+
     let totalCellsCount
     let visitedCellsCount = 0
     function generateMaze(x, y) {
@@ -116,6 +144,39 @@ function sketch(p) {
         for(let i = 0; i < possibleMoves.length; i++)
             possibleMoves[i]();
     }
+
+    let visitedFindingSolution
+    function findSolution(x, y, endX, endY, solution){
+        let node = {next: solution, x: x, y: y}
+        visitedFindingSolution[x][y] = false;
+        if(x === endX && y === endY)
+            return node;
+
+
+        if(y < mazeHeight -1 && !rows[x][y+1] && visitedFindingSolution[x][y+1]){
+            let s = findSolution(x,y+1, endX, endY, node);
+            if(s)
+                return s;
+        }
+        if(y > 0 && !rows[x][y] && visitedFindingSolution[x][y-1]){
+            let s = findSolution(x,y-1, endX, endY, node);
+            if(s)
+                return s;
+        }
+        if(x < mazeWidth-1 && !columns[x+1][y] && visitedFindingSolution[x+1][y]){
+            let s = findSolution(x+1,y, endX, endY, node);
+            if(s)
+                return s;
+        }
+        if(x > 0 && !columns[x][y] && visitedFindingSolution[x-1][y]){
+            let s = findSolution(x-1,y, endX, endY, node);
+            if(s)
+                return s;
+        }
+
+        return false
+    }
+
 }
 
 function shuffleArray(array) {
