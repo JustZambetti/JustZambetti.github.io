@@ -4,7 +4,7 @@
 	http://jedwatson.github.io/classnames
 */
 
-/*! p5.js v1.9.1 February 29, 2024 */
+/*! p5.js v1.9.4 May 21, 2024 */
 
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
