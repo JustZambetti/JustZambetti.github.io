@@ -9,7 +9,7 @@ export const AboutMe = () => {
                 <p style={{margin:"auto", maxWidth:"75%"}}>
                     I’m Zambetti Giorgio, a Computer Science student based in Italy.
                     Here I share my projects and some interactive explanations of the algorithms I learn about.
-                    I hope you will like them!  </p>
+                    I hope you will like them!  (this website is still W.I.P)</p>
                 <p style={{margin:"auto", maxWidth:"75%"}}>
                     I really like spending my free time solving riddles and LeetCode-like questions.
                     That's why I'm currently working on <Link to="/AlgorithmicRiddles">Algorithmic Riddles</Link>: a curated collection of the logical puzzles I like the most!

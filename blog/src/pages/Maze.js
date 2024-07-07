@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import p5 from 'p5';
-import {convexHullGrahamScan, distance} from "../helpFunctions";
+import {convexHullGrahamScan, distance, shuffleArray} from "../helpFunctions";
 
 function sketch(p) {
     let canvasWidth, canvasHeight
@@ -281,47 +281,38 @@ function sketch(p) {
             let newNode = {nexts: [], x: x, y: y}
             oldNode.nexts.push(newNode)
 
-            if(y < mazeHeight -1 && !rows[x][y+1] && !visitedSimplifying[x][y+1]){
+            if(y < mazeHeight && !rows[x][y+1] && !visitedSimplifying[x][y+1]){
                 simplifyMaze(x,y+1,newNode)
             }
             if(y > 0 && !rows[x][y] && !visitedSimplifying[x][y-1]){
                 simplifyMaze(x,y-1, newNode)
             }
-            if(x < mazeWidth-1 && !columns[x+1][y] && !visitedSimplifying[x+1][y]){
+            if(x < mazeWidth-1 && y < mazeHeight && !columns[x+1][y] && !visitedSimplifying[x+1][y]){
                 simplifyMaze(x+1,y,newNode)
             }
-            if(x > 0 && !columns[x][y] && !visitedSimplifying[x-1][y]){
+            if(x > 0 && y < mazeHeight && !columns[x][y] && !visitedSimplifying[x-1][y]){
                 simplifyMaze(x-1,y,newNode)
             }
 
             importantNodes.push({x1:oldNode.x, y1: oldNode.y, x2:newNode.x, y2: newNode.y})
         }
         else {
-            if (y < mazeHeight - 1 && !rows[x][y + 1] && !visitedSimplifying[x][y + 1]) {
+            if (y < mazeHeight && !rows[x][y + 1] && !visitedSimplifying[x][y + 1]) {
                 simplifyMaze(x, y + 1, oldNode)
             }
             if (y > 0 && !rows[x][y] && !visitedSimplifying[x][y - 1]) {
                 simplifyMaze(x, y - 1, oldNode)
             }
-            if (x < mazeWidth - 1 && !columns[x + 1][y] && !visitedSimplifying[x + 1][y]) {
+            if (x < mazeWidth - 1 && y < mazeHeight && !columns[x + 1][y] && !visitedSimplifying[x + 1][y]) {
                 simplifyMaze(x + 1, y, oldNode)
             }
-            if (x > 0 && !columns[x][y] && !visitedSimplifying[x - 1][y]) {
+            if (x > 0 && y < mazeHeight && !columns[x][y] && !visitedSimplifying[x - 1][y]) {
                 simplifyMaze(x - 1, y, oldNode)
             }
 
             if(roads === 0)
                 importantNodes.push({x1:oldNode.x, y1: oldNode.y, x2:x, y2: y, isLeaf: true})
         }
-    }
-}
-
-function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
     }
 }
 

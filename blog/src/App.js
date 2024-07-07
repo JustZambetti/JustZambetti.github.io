@@ -7,6 +7,8 @@ import {AppRouter, Routes} from "./Routes";
 import {BinomialDistribution} from "./pages/BinomialDistribution";
 import {MontecarloPiCalculator} from "./pages/MontecarloPiCalculator";
 import {Maze} from "./pages/Maze";
+import {WaveFunctionCollapse} from "./pages/WaveFunctionCollapse";
+import {SudokuGenerator} from "./pages/SudokuGenerator";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
 
 export const articles = {
     maze: {route: <Maze/>, title: "Maze Generator", description:"A maze generator", src:"maze.png"},
+    waveFunctionCollapse: {route: <WaveFunctionCollapse/>, title: "Wave Function Collapse", description:"Learn more about wave function collapse"},
+    sudoku: {route: <SudokuGenerator/>, title: "Sudoku", description:"A SudokuGenerator generator"},
     convexHull: {route: <ConvexHull/>, title:"Convex Hull Editor",description:"A convex hull editor", src:"convex_hull.png"},
     montecarlo: {route: <MontecarloPiCalculator/>, title:"Montecarlo Simulation",description:"Calculating Pi by choosing random points", src:"montecarlo.png"},
     random: {route: <Random/>, title:"Linear Distribution", description:"A visualization of a linear distribution", src:"linear_distribution.png"},
