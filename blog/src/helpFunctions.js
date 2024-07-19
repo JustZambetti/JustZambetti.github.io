@@ -19,6 +19,7 @@ export function orientation(q, p, r) {
     if (val === 0) return 0;
     return (val > 0) ? 1 : -1;
 }
+
 export function backtrackingGrahamScan(stack, points, newPoint) {
     while (orientation(stack[stack.length - 2], stack[stack.length - 1], newPoint) > 0)
         stack.pop()
@@ -31,7 +32,7 @@ export function sortPointsByAngle(points) {
 }
 
 export function convexHullGrahamScan(unorderedPoints) {
-    if(unorderedPoints.length < 3)
+    if (unorderedPoints.length < 3)
         return null
 
     const lowestPoint = getLowestPoint(unorderedPoints)
@@ -48,7 +49,7 @@ export function convexHullGrahamScan(unorderedPoints) {
     return stack;
 }
 
-export function setAngleToPoints(points, pivot){
+export function setAngleToPoints(points, pivot) {
     points.forEach(point => {
         point.angle = Math.atan2(point.y - pivot.y, point.x - pivot.x)
     })
@@ -66,4 +67,26 @@ export function shuffleArray(array) {
         array[i] = array[j];
         array[j] = temp;
     }
+}
+
+export function findRandomMinWithComparator(arr, comparator) {
+    if (arr.length === 0)
+        throw new Error("Array is empty");
+
+    let minElement = arr[0];
+    let minCount = 1;
+
+    for (let i = 1; i < arr.length; i++) {
+        let comparison = comparator(arr[i], minElement)
+        if (comparison < 0){
+            minElement = arr[i];
+            minCount = 1;
+        }
+        else if(comparison === 0){
+            minCount++
+            if(Math.random() < 1/minCount)
+                minElement = arr[i];
+        }
+    }
+    return minElement;
 }
