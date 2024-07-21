@@ -20,7 +20,7 @@ function App() {
 
 export const articles = {
     maze: {route: <Maze/>, title: "Maze Generator", description:"A maze generator", src:"maze.png"},
-    waveFunctionCollapse: {route: <WaveFunctionCollapse/>, title: "Wave Function Collapse", description:"Learn more about wave function collapse"},
+    waveFunctionCollapse: {route: <WaveFunctionCollapse/>, title: "2D Castle Generator", description:"Learn more about wave function collapse", src:"wave_function_collapse.png"},
     sudoku: {route: <SudokuGenerator/>, title: "Sudoku", description:"A SudokuGenerator generator", src:"sudoku.png"},
     convexHull: {route: <ConvexHull/>, title:"Convex Hull Editor",description:"A convex hull editor", src:"convex_hull.png"},
     montecarlo: {route: <MontecarloPiCalculator/>, title:"Montecarlo Simulation",description:"Calculating Pi by choosing random points", src:"montecarlo.png"},
