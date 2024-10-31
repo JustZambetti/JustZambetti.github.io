@@ -6,17 +6,18 @@ export function Portfolio() {
         <>
             <div style={{height: "25vh"}}></div>
             <Greetings/>
-            <div style={{position:"absolute", zIndex:"-1", right:"40vw", top:"20vh"}}>
-                <CircleGrid totalCircles={64}  />
+            <div style={{position: "absolute", zIndex: "-1", right: "40vw", top: "20vh"}}>
+                <CircleGrid totalCircles={64}/>
             </div>
             <NavBar/>
             <Space amount="30vh"/>
-            <Scroller amount="50vh"/>
+            <Scroller amount="50vh" leftOffset="100px"/>
             <SearchAndOptimization/>
-            <Space amount="50vh"/>
+            <Space amount="35vh"/>
             <Scroller amount="50vh" leftOffset="100px"/>
             <SoftwareEngineering/>
             <Space amount="30vh"/>
+            <DarkZone/>
         </>
     )
 }
@@ -55,7 +56,7 @@ function SoftwareEngineering() {
                 <li className="big-list-item">TESTING</li>
                 <li className="big-list-item">DEVELOPING</li>
             </ul>
-
+            <SmallLetsConnect/>
         </div>
     )
 }
@@ -71,10 +72,7 @@ function SearchAndOptimization() {
                 <li className="big-list-item">SCHEDULING</li>
                 <li className="big-list-item">PACKING</li>
             </ul>
-            <div>
-                <span className="text">Then, let's </span>
-                <span className="small-connect-button"> <span>CONNECT!</span></span>
-            </div>
+            <SmallLetsConnect/>
         </div>
     )
 }
@@ -102,7 +100,7 @@ const CircleGrid = ({totalCircles}) => {
 
 const NavBar = () => {
     return (
-        <div style={{position: "fixed", right: "5%", top: "10%"}}>
+        <div style={{position: "fixed", right: "5%", top: "10%", mixBlendMode: "difference"}}>
             <div className="navbar-line"></div>
             <div style={{marginRight: "10px"}}>
                 <p className="navbar-text-unselected"> contacts</p>
@@ -115,19 +113,44 @@ const NavBar = () => {
 
 const Scroller = ({amount, leftOffset}) => {
     return (
-        <div style={{position: "relative", left:leftOffset, margin:"auto"}}>
+        <div style={{position: "relative", left: leftOffset, margin: "auto"}}>
 
-            <div className="scroll-line" style={{height:amount, bottom:-33}}>
-                <div style={{bottom: -7, right: 0}} className="scroll-circle">
+            <div className="scroll-line" style={{height: amount, bottom: -33}}>
 
 
-                </div>
-                <div style={{position: "relative", top: -15, display:"flex",  alignItems: "center"}}>
+                <div style={{position: "relative", top: -15, display: "flex", alignItems: "center"}}>
                     <div className="scroll-circle"></div>
-                    <p className="scroll-text" style={{marginLeft: 20, marginBottom:0}}> SCROLL</p>
+                    <p className="scroll-text" style={{marginLeft: 20, marginBottom: 0}}> SCROLL</p>
                 </div>
 
             </div>
         </div>
     );
+}              //<div style={{bottom: -7, right: 0}} className="scroll-circle"/>
+
+function SmallLetsConnect() {
+    return <div style={{marginTop: "8vh"}}>
+        <span className="text">Then, let's </span>
+        <span className="small-connect-button"> <span>CONNECT!</span></span>
+    </div>
+}
+
+function DarkZone() {
+    return (
+        <>
+            <div className="dark-zone-angled"></div>
+            <div className="dark-zone">
+                <FinalCallToAction/>
+            </div>
+        </>
+    )
+}
+
+function FinalCallToAction() {
+    return (
+        <>
+            <span className="title-dark">CONVINCED?</span>
+            <SmallLetsConnect/>
+        </>
+    )
 }

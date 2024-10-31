@@ -41,6 +41,7 @@ a.social-link:hover {
     line-height: 1;
 }
 
+
 .big-list-item {
     font-family: 'Roboto', serif;
     color: #303030;
@@ -85,7 +86,7 @@ a.social-link:hover {
 
 .navbar-text-unselected {
     font-family: 'Roboto', serif;
-    color: #636363;
+    color: #9e9e9e;
     font-size: 20px;
     letter-spacing: 1px;
     margin: 0;
@@ -94,9 +95,9 @@ a.social-link:hover {
 
 .navbar-text-selected {
     font-family: 'Roboto', serif;
-    color: #303030;
+    color: white;
     font-size: 20px;
-    text-decoration: #303030;
+    text-decoration: white;
     text-decoration-line: underline;
     letter-spacing: 1px;
     margin: 0;
@@ -106,7 +107,7 @@ a.social-link:hover {
 .navbar-line {
     position: absolute;
     right: 0;
-    background: #636363;
+    background: #9e9e9e;
     width: 3px;
     height: 100px;
 }
@@ -114,15 +115,14 @@ a.social-link:hover {
 .scroll-line {
     position: relative;
     margin: auto;
-    background: #636363;
+    background: #B2B2B2;
     width: 3px;
     height: 20vh;
-
 }
 
 .scroll-circle {
     position: absolute;
-    background: #636363;
+    background: #B2B2B2;
     width: 14px;
     height: 14px;
     border-radius: 50%;
@@ -130,7 +130,7 @@ a.social-link:hover {
 
 .scroll-text {
     font-family: 'Roboto', serif;
-    color: #818181;
+    color: #B2B2B2;
     font-size: 20px;
     letter-spacing: 2px;
 }
@@ -149,4 +149,36 @@ a.social-link:hover {
     letter-spacing: 2px;
     text-align: center;
     width: fit-content;
+}
+
+.dark-zone-angled{
+    transform: rotate(-15deg);
+    background: #303030;
+    height: 200vh;
+    width: 300vw;
+    position: relative;
+    left: -100vw;
+    z-index: -1;
+}
+
+.dark-zone{
+    background: #303030;
+    height: 200vh;
+    width: 100vw;
+    position: relative;
+    margin-top:-50vh;
+    z-index: -1;
+}
+
+.title-dark {
+    font-family: 'Roboto', serif;
+    color: #e1e1e1;
+    font-size: 66px;
+    letter-spacing: 6px;
+    filter: drop-shadow(0 3px 2px #757575);
+    line-height: 1;
+    z-index: 1;
+    position: relative;
+    margin:auto;
+    text-align: center;
 }
