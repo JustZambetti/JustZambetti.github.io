@@ -1,28 +1,152 @@
 @font-face {
-  font-family: 'Inter';
-  src: local('Inter'), url(./fonts/Inter.ttf)  format("truetype");
+    font-family: 'Inter';
+    src: local('Inter'), url(./fonts/Inter.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: local('Roboto'), url(./fonts/Roboto.ttf) format("truetype");
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Inter',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #F7F7F7;
-  overflow-x: hidden;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #F7F7F7;
+    background: linear-gradient(to top left, #C8C8C8, #F0F0F0);
+    overflow-x: hidden;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 
-a.social-link{
-  color:#424242;
+a.social-link {
+    color: #424242;
 }
-a.social-link:hover{
-  color:#363535;
+
+a.social-link:hover {
+    color: #363535;
+}
+
+
+.title {
+    font-family: 'Roboto', serif;
+    color: #303030;
+    font-size: 66px;
+    letter-spacing: 6px;
+    filter: drop-shadow(0 4px 2px #9d9d9d);
+    line-height: 1;
+}
+
+.big-list-item {
+    font-family: 'Roboto', serif;
+    color: #303030;
+    font-size: 40px;
+}
+
+.subtitle {
+    font-family: 'Roboto', serif;
+    color: #818181;
+    font-size: 30px;
+}
+
+.text {
+    font-family: 'Roboto', serif;
+    color: #818181;
+    font-size: 20px;
+}
+
+
+#hi {
+    font-family: 'Roboto', serif;
+    color: #303030;
+    font-size: 300px;
+    filter: drop-shadow(0 4px 4px #898989);
+    line-height: 1;
+    text-indent: 0;
+}
+
+
+.circle-grid {
+    display: grid;
+    width: 150px;
+    height: 150px;
+}
+
+.circle {
+    width: 5px;
+    height: 5px;
+    background-color: #B2B2B2;
+    border-radius: 50%;
+}
+
+.navbar-text-unselected {
+    font-family: 'Roboto', serif;
+    color: #636363;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin: 0;
+    text-align: right;
+}
+
+.navbar-text-selected {
+    font-family: 'Roboto', serif;
+    color: #303030;
+    font-size: 20px;
+    text-decoration: #303030;
+    text-decoration-line: underline;
+    letter-spacing: 1px;
+    margin: 0;
+    text-align: right;
+}
+
+.navbar-line {
+    position: absolute;
+    right: 0;
+    background: #636363;
+    width: 3px;
+    height: 100px;
+}
+
+.scroll-line {
+    position: relative;
+    margin: auto;
+    background: #636363;
+    width: 3px;
+    height: 20vh;
+
+}
+
+.scroll-circle {
+    position: absolute;
+    background: #636363;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.scroll-text {
+    font-family: 'Roboto', serif;
+    color: #818181;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.small-connect-button {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    filter: drop-shadow(0 4px 2px #9d9d9d);
+}
+
+.small-connect-button {
+    font-family: 'Roboto', serif;
+    color: #1B1B1B;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+    width: fit-content;
 }
