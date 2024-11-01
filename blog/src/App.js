@@ -11,6 +11,7 @@ import {WaveFunctionCollapse} from "./pages/WaveFunctionCollapse";
 import {SudokuGenerator} from "./pages/SudokuGenerator";
 import {WaterJugsRiddle} from "./pages/WaterJugsRiddle";
 import React from "react";
+import {Puzzle15} from "./pages/Puzzle15";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 }
 
 export const articles = {
+    puzzle15: {route: <Puzzle15/>, title: "15 Puzzle", description:"Can you solve it?", src:".png"},
     waterJugs: {route: <WaterJugsRiddle/>, title: "Water Jugs Riddle", description:"A maze generator", src:".png"},
     maze: {route: <Maze/>, title: "Maze Generator", description:"A maze generator", src:"maze.png"},
     waveFunctionCollapse: {route: <WaveFunctionCollapse/>, title: "2D Castle Generator", description:"Learn more about wave function collapse", src:"wave_function_collapse.png"},

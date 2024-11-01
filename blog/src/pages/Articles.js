@@ -1,46 +1,100 @@
 import {articles} from "../App";
 import {Link} from "react-router-dom";
-import { Card, Col, Row} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
+import {Space} from "./Portfolio";
 
-export function Articles(){
+export function Articles() {
     return (
         <>
-            <h1 style={{fontFamily: "inter", fontWeight:500, textAlign:"center", marginTop:70}}>ARTICLES</h1>
+            <Space amount="15vh"/>
+            <Title/>
+            <Space amount="18vh"/>
+            <Section title={"PUZZLES"} subtitle={"Fun games with tons of maths backing them!"}/>
+            <ArticleBox title="15" subtitle = "Learn how to solve it!" isRight={true}/>
+            <Space amount="6vh"/>
+            <ArticleBox title="WATER JUGS" subtitle = "Learn more about one of the most asked interview riddles!" isRight={false}/>
+            <Space amount="25vh"/>
+            <Section title={"GENERATORS"} subtitle={"Find out how to generate anything"}/>
+            <ArticleBox title="Mazes" subtitle = "Generate mazes on a 2D grid" isRight={true}/>
+            <Space amount="6vh"/>
+            <ArticleBox title="SUDOKU" subtitle = "Generate valid sudokus with difficulty levels" isRight={false}/>
+            <Space amount="6vh"/>
+            <ArticleBox title="WAVEFUNCTION COLLAPSE" subtitle = "Generate anything with a simple set of rules!" isRight={true}/>
 
-            <Row style={{marginTop:20, marginRight:5, marginLeft:5}}>
-                {Object.keys(articles).map((article, id) =>
-                    <Col key={id} lg={3} md={4} sm={6} xs={12} className="mb-4">
-                        {ArticleCard(article)}
-                    </Col>
-                )}
+            <NavBar/>
 
-
-            </Row>
         </>
     )
 }
-/*
-    <div style={{display:"flex", flexWrap:"wrap", margin:"auto", justifyContent:"space-evenly"}}>
-            {Object.keys(articles).map(article =>
-                ArticleCard(article)
-            )}
-        </div>
- */
 
-function ArticleCard(article) {
+const Title = () => {
     return (
-            <Card style={{ width: "auto", height:"100%"}}>
-                <Link to={"/"+article}>
-                    <Card.Img variant="top" src={"imgs/"+articles[article].src} />
-                </Link>
-                <div  style= {{height:"100%"}}> </div>
-                <Card.Body style={{background:"#dde6f1"}}>
-                    <Card.Title>{articles[article].title}</Card.Title>
-                    <Card.Text>
-                        {articles[article].description}
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+        <div style={{
+            margin: "auto",
+            width: "613px",
+            display: "flex",
+            flexDirection: 'column',
+            alignItems: "left",
+            justifyContent: "start"
+        }}>
+            <span className="title">ARTICLES</span> <br/>
+            <span className="text">If you are looking for project ideas or to learn something new</span> <br/>
+            <span className="text"> you are in the right place!</span>
+        </div>
+    )
+}
 
+const ArticleBox= ({title, subtitle, isRight}) => {
+    return (
+        <div style={{
+            position:"relative",
+            display: "flex",
+            flexDirection: isRight?'row' : "row-reverse",
+            alignItems: "left",
+            justifyContent: isRight? "end" : "start",
+            marginLeft: 30,
+            marginRight: 30,
+        }}>
+            <div>
+                <span style={{float: isRight? "right" : "left"}} className="big-list-item">{title}</span> <br/>
+                <span style={{float: isRight? "right" : "left"}} className="text">{subtitle}</span>
+            </div>
+            <div style={{
+                position: "relative",
+                marginLeft:10,
+                top: 0,
+                width: 250, height:250, background:"white", borderRadius:10}}
+            />
+        </div>
+    )
+}
+
+const Section = ({title, subtitle}) => {
+    return (
+        <div style={{
+            marginLeft:"5vw",
+            width: "613px",
+            display: "flex",
+            flexDirection: 'column',
+            alignItems: "left",
+            justifyContent: "start"
+        }}>
+            <span className="title">{title}</span> <br/>
+            <span className="text">{subtitle}</span>
+        </div>
+    )
+}
+
+const NavBar = () => {
+    return (
+        <div style={{position: "fixed", display:"flex", right: "5%", top: "10%", mixBlendMode: "difference"}}>
+            <div className="navbar-line"></div>
+            <div style={{marginRight: "10px"}}>
+                <Link to="/AboutMe" className="navbar-text-unselected"> contacts</Link><br/>
+                <Link to="/" className="navbar-text-unselected"> portfolio</Link>
+                <p className="navbar-text-selected"> articles</p>
+            </div>
+        </div>
     );
 }
+
