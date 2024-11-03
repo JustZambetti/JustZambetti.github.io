@@ -60,7 +60,11 @@ a.social-link:hover {
     color: #818181;
     font-size: 20px;
 }
-
+.text-dark {
+    font-family: 'Roboto', serif;
+    color: #303030;
+    font-size: 20px;
+}
 
 #hi {
     font-family: 'Roboto', serif;
@@ -168,7 +172,7 @@ a.social-link:hover {
 
 .dark-zone{
     background: #303030;
-    height: 200vh;
+    height: 100vh;
     width: 100vw;
     position: relative;
     margin-top:-50vh;

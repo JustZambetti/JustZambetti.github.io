@@ -1,4 +1,4 @@
-import {Col, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {articles} from "../App";
 import {useEffect, useRef} from "react";
 import p5 from 'p5';
@@ -10,18 +10,21 @@ export function Portfolio() {
         <>
             <div style={{height: "25vh"}}></div>
             <Greetings/>
+
             <div style={{position: "absolute", zIndex: "-1", right: "40vw", top: "20vh"}}>
                 <CircleGrid totalCircles={64}/>
             </div>
             <Space amount="30vh"/>
             <Scroller amount="50vh" leftOffset="100px"/>
+            <FifteenGame/>
             <SearchAndOptimization/>
-            <Space amount="35vh"/>
-            <Scroller amount="50vh" leftOffset="100px"/>
+            <Space amount="40vh"/>
+            <RiddlesBook/>
             <SoftwareEngineering/>
             <Space amount="30vh"/>
             <DarkZone/>
             <NavBar/>
+
         </>
     )
 }
@@ -77,7 +80,6 @@ function SearchAndOptimization() {
                 <li className="big-list-item">PACKING</li>
             </ul>
             <SmallLetsConnect/>
-            <FifteenGame/>
         </div>
     )
 }
@@ -131,12 +133,18 @@ const Scroller = ({amount, leftOffset}) => {
             </div>
         </div>
     );
-}              //<div style={{bottom: -7, right: 0}} className="scroll-circle"/>
+}
 
 function SmallLetsConnect() {
-    return <div style={{marginTop: "8vh"}}>
+    return <div style={{marginTop: "4vh"}}>
         <span className="text">Then, let's </span>
-        <span className="small-connect-button"> <span>CONNECT!</span></span>
+
+        <Link to="/AboutMe" className="navbar-text-unselected">
+                 <span className="small-connect-button">
+                CONNECT!
+                  </span>
+        </Link>
+
     </div>
 }
 
@@ -153,10 +161,10 @@ function DarkZone() {
 
 function FinalCallToAction() {
     return (
-        <>
+        <div style={{margin: "auto", width: "fit-content"}}>
             <span className="title-dark">CONVINCED?</span>
             <SmallLetsConnect/>
-        </>
+        </div>
     )
 }
 
@@ -207,23 +215,22 @@ function sketch(p) {
         //p.background(255)
 
 
-
         for (let i = 0; i < 100; i++) {
             confetti.push(new Confetti(p.random(250), p.random(-50, -10), p));
         }
     }
 
     const drawBackground = () => {
-        p.fill("#BDBDBD")
+        p.fill("#aec4e8")
         p.noStroke()
         p.rect(0, 0, canvasSize + cellMargin, canvasSize + cellMargin, 6)
     }
     const drawCell = (x, y, num) => {
-        p.fill("#D9D9D9")
+        p.fill("#eeeffb")
         p.noStroke()
         let size = canvasSize / 3
         if (overX === x && overY === y)
-            p.fill('#ded5b2');
+            p.fill('#ffe466');
 
         p.rect(x * size + cellMargin, y * size + cellMargin, size - cellMargin, size - cellMargin, 6)
 
@@ -250,14 +257,13 @@ function sketch(p) {
                     drawCell(x, y, array[x][y])
             }
 
-        if(won){
+        if (won) {
             for (let particle of confetti) {
                 particle.update(confettiTime > 0);
                 particle.show();
             }
             confettiTime--
         }
-
 
 
         p.mousePressed = () => {
@@ -270,11 +276,11 @@ function sketch(p) {
             let hasWon = true
             for (let x = 0; x < 3; x++)
                 for (let y = 0; y < 3; y++)
-                    if(array[x][y] !== x+3*y+1 && (y !== 2 || x !== 2)){
+                    if (array[x][y] !== x + 3 * y + 1 && (y !== 2 || x !== 2)) {
                         hasWon = false
                     }
 
-            if(hasWon){
+            if (hasWon) {
                 won = true
                 confettiTime = 60
             }
@@ -296,10 +302,46 @@ export function FifteenGame() {
     }, [])
 
     return (
-        <div style={{position: "absolute", right: "2vw"}}>
+        <div style={{position: "absolute", left: "2vw"}}>
             <span className="subtitle" style={{textAlign: "center", margin: "auto"}}>PUZZLE OF THE DAY </span>
             <div className="App" ref={p5ContainerRef}/>
             <Link to="/Puzzle15" className="text">Learn how to generalize it!</Link>
         </div>
     )
+}
+
+export function RiddlesBook() {
+    return (
+        <div style={{position: "absolute", left: "2vw"}}>
+            <span className="subtitle" style={{textAlign: "center", margin: "auto"}}></span>
+            <div style={{flex: 1}}>
+                <img style={{width: 200, display: "block", margin: "auto", boxShadow: "0px 4px 4px"}} alt="Giorgio"
+                     src="/imgs/algorithmic_riddles_cover.png"/>
+            </div>
+            <div className="text-center" style={{marginTop: -6, margin: "auto"}}>
+                <span className="small-connect-button" style={{letterSpacing: 0, cursor: "pointer"}}
+                      onClick={() => handleDownload("/algorithmic_riddles.pdf", "Algorithmic Riddles.pdf")}> <span>DOWNLOAD!</span></span>
+            </div>
+        </div>
+    )
+}
+
+const handleDownload = (url, fileName) => {
+    fetch(url)
+        .then((response) => response.blob())
+        .then((blob) => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName || "downloaded-file";
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => {
+            console.error("Error fetching the file:", error);
+        });
 }
