@@ -15,6 +15,7 @@ export function Articles() {
                         subtitle="Learn how to solve it!"
                 isRight={true}
                 link = "/Puzzle15"
+                src = "/imgs/puzzle15.png"
             />
             <Space amount="6vh"/>
             <ArticleBox title="WATER JUGS" subtitle="Learn more about one of the most asked interview riddles!"

@@ -191,3 +191,9 @@ a.social-link:hover {
     margin:auto;
     text-align: center;
 }
+
+.card {
+    max-width: 500px;
+    padding: 20px;
+    height: fit-content;
+}
