@@ -193,7 +193,8 @@ a.social-link:hover {
 }
 
 .card {
-    max-width: 500px;
+    max-width: 530px;
     padding: 20px;
     height: fit-content;
+    margin: 10px
 }
