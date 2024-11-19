@@ -3,6 +3,52 @@ import {shuffleArray} from "../helpFunctions";
 import p5 from 'p5';
 import {useEffect, useRef} from "react";
 
+class TimedState {
+    constructor(onEnter = () => {
+    }, update = (time) => {
+    }, onExit = () => {
+    }) {
+        this.onEnter = onEnter;
+        this.update = update;
+        this.onExit = onExit;
+    }
+}
+
+class StateMachine {
+    constructor(initialState, states) {
+        this.states = states;
+        this.currentState = null;
+        this.setState(initialState);
+        this.time = 0
+    }
+
+    setState(newState) {
+        if (this.currentState && this.currentState.name === newState)
+            return;
+
+        if (this.currentState)
+            this.currentState.onExit();
+
+
+        if (!this.states.includes(newState)) {
+            throw new Error(`State "${newState}" does not exist in the state machine`);
+        }
+
+        this.currentState = newState;
+        this.currentState.onEnter();
+        this.time = 0
+    }
+
+    update() {
+        let keepUpdating = this.currentState.update(this.time);
+        this.time++
+        if (!keepUpdating) {
+            this.currentState = this.currentState.onExit();
+            this.time = 0
+        }
+    }
+}
+
 const sketch = (p) => {
     let tapImg;
 
@@ -20,11 +66,11 @@ const sketch = (p) => {
 
     let capacities = [3, 5]
     let quantities = [0, 2]
+    let tookControl = [false, false]
+    let bottleOverrides = Array(2)
+
     let selectedBottle = null
 
-
-    let angle = 0
-    let targetAngle
     let pourWidth = 0
 
     let actionTime = 10
@@ -33,15 +79,156 @@ const sketch = (p) => {
     let oldWater
     let startPouringAngle = 0
 
+    let statemachine
+
+    const idleState = new TimedState(() => {
+        tookControl =  tookControl.map(_ => false)
+    }, (time) => {
+        if(selectedBottle !== null){
+            tookControl[selectedBottle] = true
+            bottleOverrides[selectedBottle] = {y: bottlesY-20}
+        }
+        else
+            tookControl = tookControl.map(_ => false)
+
+        return true
+    }, () => {
+    })
+    const reachingSecondBottleState = new TimedState(
+        () => {
+            tookControl[selectedBottle] = true
+        },
+        (time) => {
+            let bottleHeight = capacities[selectedBottle] * literHeight
+            const duration = 10
+            bottleOverrides[selectedBottle] = {
+                x: p.map(time, 0, duration, getXFromBottleIndex(selectedBottle), getXFromBottleIndex(secondBottle) + bottleWidth / 2),
+                y: p.map(time, 0, duration, bottleOverrides[selectedBottle].y, bottlesY - (capacities[secondBottle] * literHeight) + bottleHeight - 50)
+            }
+
+            return time < duration
+        }, () => {
+            movingWater = Math.min(quantities[selectedBottle], capacities[secondBottle] - quantities[secondBottle])
+            oldWater = quantities[secondBottle]
+            //console.log(movingWater)
+
+            return rotatingBottleState
+        }
+    )
+    const rotatingBottleState = new TimedState(
+        () => {
+            tookControl[secondBottle] = true
+        }, (time) => {
+            const duration = 15.0
+            const targetAngle = p.HALF_PI
+            let angle = lerpEase(0, targetAngle, time / duration, 'easeOut', true)
+            bottleOverrides[selectedBottle].angle = angle
+            bottleOverrides[selectedBottle].y = lerpEase(bottleOverrides[selectedBottle].y , bottleOverrides[selectedBottle].y -5, time / duration, 'easeOut', true)
+
+            let visibleWaterLevel = Math.max(0, -(bottleWidth / 2) * p.sin(angle) + (capacities[selectedBottle] - quantities[selectedBottle]) * literHeight * p.cos(angle))
+
+            if (visibleWaterLevel === 0 && startPouringAngle === 0)
+                startPouringAngle = angle
+
+            if (visibleWaterLevel === 0)
+                quantities[secondBottle] = p.map(angle, startPouringAngle, targetAngle, oldWater, oldWater + movingWater)
+
+            return time <= duration
+        }, () => {
+            startPouringAngle = 0
+            quantities[selectedBottle] -= movingWater
+            return rotatingBottleBackState
+        })
+    const emptyingBottleState = new TimedState(
+        () => {
+            tookControl[secondBottle] = true
+        }, (time) => {
+            const duration = 15.0
+            const targetAngle = p.HALF_PI
+            let angle = lerpEase(0, targetAngle, time / duration, 'easeOut', true)
+            bottleOverrides[selectedBottle].angle = angle
+            bottleOverrides[selectedBottle].y = lerpEase(bottleOverrides[selectedBottle].y , bottleOverrides[selectedBottle].y -4, time / duration, 'easeOut', true)
+            bottleOverrides[selectedBottle].x = getXFromBottleIndex(selectedBottle)
+            return time <= duration
+        }, () => {
+            startPouringAngle = 0
+            quantities[selectedBottle] = 0
+            return rotatingBottleBackState
+        })
+
+    const movingToTapState = new TimedState(
+        () => {
+            tookControl[secondBottle] = true
+        }, (time) => {
+            const duration = 10
+            bottleOverrides[selectedBottle] = {
+                x: lerpEase(getXFromBottleIndex(selectedBottle), width-130, time / duration, 'easeOut', true),
+                y: p.map(time, 0, duration, bottleOverrides[selectedBottle].y, 100+ capacities[selectedBottle] * literHeight ),
+                angle: 0
+            }
+            return time <= duration
+        }, () => {
+            return fillingBottleState
+        })
+
+    const fillingBottleState = new TimedState(
+        () => {
+            tookControl[secondBottle] = true
+        }, (time) => {
+            const duration = 10
+            quantities[selectedBottle] = p.map(time, 0, duration, quantities[selectedBottle], capacities[selectedBottle])
+            const width = time <= duration/2? lerpEase(0, 4, time / duration/2, 'easeOut', true)
+            : lerpEase(4, 0, time / duration - duration/2, 'easeOut', true)
+            const x = bottleOverrides[selectedBottle].x
+            const y = bottleOverrides[selectedBottle].y
+            p.push()
+            {
+                p.translate(x, y)
+                p.fill(100, 150, 250)
+                p.noStroke()
+                p.rect(bottleWidth/2-5, -17 - capacities[selectedBottle] * literHeight, width,15 +capacities[selectedBottle] * literHeight);
+            }
+            p.pop()
+
+            return time <= duration
+        }, () => {
+            return rotatingBottleBackState
+        })
+
+    const rotatingBottleBackState = new TimedState(() => {
+    }, (time) => {
+        const duration = 25.0
+
+        bottleOverrides[selectedBottle] = {
+            x: p.map(time, duration, 0, getXFromBottleIndex(selectedBottle), bottleOverrides[selectedBottle].x),
+            y: p.map(time, duration, 0, bottlesY, bottleOverrides[selectedBottle].y),
+            angle: lerpEase(bottleOverrides[selectedBottle].angle, 0, time / duration, 'easeInOut', true)
+        }
+        return time <= duration
+    }, () => {
+        selectedBottle = null
+        secondBottle = null
+        return idleState
+    })
+
     p.setup = () => {
         p.createCanvas(width, height)
-        targetAngle = p.HALF_PI
+        statemachine = new StateMachine(idleState,
+            [
+                idleState,
+                reachingSecondBottleState,
+                rotatingBottleState,
+                rotatingBottleBackState,
+                emptyingBottleState,
+                fillingBottleState,
+                movingToTapState
+            ])
     }
     p.draw = () => {
         p.background("white")
+        drawBottles()
 
-
-        p.background("white");
+        statemachine.update()
 
         p.push()
         {
@@ -49,61 +236,9 @@ const sketch = (p) => {
             p.image(tapImg, width + 160, 0);
         }
         p.pop()
-
-        if (state === movingBottleToBottle) {
-            if (timer < actionTime) {
-                timer++
-            } else {
-                state = rotatingBottle
-
-                movingWater = Math.min(quantities[selectedBottle], capacities[secondBottle] - quantities[secondBottle])
-                oldWater = quantities[secondBottle]
-                console.log(movingWater)
-            }
-        }
-        if (state === rotatingBottle) {
-            if (angle < targetAngle) {
-                angle += (targetAngle + 1 - angle) * 0.04;
-                let visibleWaterLevel = Math.max(0, -(bottleWidth / 2) * p.sin(angle) + (capacities[selectedBottle] - quantities[selectedBottle]) * literHeight * p.cos(angle))
-                if (visibleWaterLevel === 0 && startPouringAngle === 0) {
-                    startPouringAngle = angle
-                }
-
-                if (visibleWaterLevel === 0)
-                    quantities[secondBottle] = p.map(angle, startPouringAngle, targetAngle, oldWater, oldWater + movingWater)
-            } else {
-                quantities[selectedBottle] -= movingWater
-                quantities[secondBottle] = oldWater + movingWater
-                state = rotatingBottleBack
-                //angle = targetAngle
-                startPouringAngle = 0
-            }
-        }
-        if (state === rotatingBottleBack) {
-            if (angle > 0) {
-                angle -= 0.15;
-            } else {
-                state = movingBottleBack
-                angle = 0
-                timer = 0
-
-            }
-        }
-        if (state === movingBottleBack) {
-            if (timer < actionTime) {
-                timer++
-            } else {
-                state = wait
-                secondBottle = null
-                selectedBottle = null
-                timer = 0
-            }
-        }
-
-        drawBottles()
     }
 
-    const getXFromBottleIndex = i => {
+    function getXFromBottleIndex(i) {
         return (i + 1) * width / (bottlesCount + 1) - bottleWidth / 2
     }
 
@@ -117,37 +252,25 @@ const sketch = (p) => {
 
             let isSelected = selectedBottle === i
             let y = bottlesY
-            if (isSelected && (state === wait || state === movingBottleToBottle) )
-                y -= 20
+            let angle = 0
 
-            let newX = isSelected ? p.map(timer, 0, actionTime, x, getXFromBottleIndex(secondBottle) + bottleWidth / 2) : x
-            let newY = isSelected && (state === rotatingBottle || state === movingBottleToBottle || state === rotatingBottleBack) ?
-                p.map(timer, 0, actionTime, y, bottlesY - (capacities[secondBottle] * literHeight) + bottleHeight - 50)
-                : y
-
-            if (isSelected && state === movingBottleBack) {
-                newX = p.map(timer, 0, actionTime, getXFromBottleIndex(secondBottle) + bottleWidth / 2, x)
-                newY = p.map(timer, 0, actionTime, bottlesY - (capacities[secondBottle] * literHeight) + bottleHeight - 50, y)
+            if (tookControl[i]) {
+                if (bottleOverrides[i].x !== undefined)
+                    x = bottleOverrides[i].x
+                if (bottleOverrides[i].y !== undefined)
+                    y = bottleOverrides[i].y
+                if (bottleOverrides[i].angle !== undefined)
+                    angle = bottleOverrides[i].angle
             }
-
-            let ang = isSelected ? angle : 0
-            drawBottle(newX, newY - bottleHeight, ang, bottleHeight, waterHeight, i)
+            let canPour = statemachine.currentState === rotatingBottleState || statemachine.currentState === emptyingBottleState && isSelected
+            drawBottle(x, y - bottleHeight, angle, bottleHeight, waterHeight, i, canPour)
         }
     }
-
-    const wait = 0
-    const rotatingBottle = 1
-    const movingBottleToBottle = 2
-    const rotatingBottleBack = 3
-    const movingBottleBack = 4
-
-    let state = wait
-    let timer = 0
 
     let secondBottle = null
 
     p.mousePressed = () => {
-        if (state !== wait)
+        if (statemachine === undefined || statemachine.currentState !== idleState)
             return
 
         let somethingPressed = false
@@ -159,19 +282,10 @@ const sketch = (p) => {
                     break
 
                 if (selectedBottle !== null) {
-                    if (quantities[selectedBottle] === 0)
+                    if (quantities[selectedBottle] === 0 || quantities[i] === capacities[i])
                         break
-                    state = movingBottleToBottle
+                    statemachine.setState(reachingSecondBottleState)
                     secondBottle = i
-
-                    /*
-                 let oldQuantity = quantities[i]
-                 quantities[i] = Math.min(capacities[i], quantities[i] + quantities[selectedBottle])
-                 let difference = quantities[i] - oldQuantity
-                 quantities[selectedBottle] -= difference
-                 selectedBottle = null
-
-                     */
                 } else {
 
                     selectedBottle = i
@@ -179,32 +293,26 @@ const sketch = (p) => {
                 somethingPressed = true;
                 break;
             }
-            //  p.rect(x,height - bottlesY - 200, bottleWidth,100)
         }
-        if (p.mouseY <= tapHeight) {
-            if (selectedBottle !== null) {
-                quantities[selectedBottle] = capacities[selectedBottle]
-                selectedBottle = null
-            }
+        if (p.mouseY <= tapHeight && quantities[selectedBottle] < capacities[selectedBottle]) {
+            statemachine.setState(movingToTapState)
             somethingPressed = true;
         }
 
-        if (p.mouseY >= height - binHeight) {
-            if (selectedBottle !== null) {
-                quantities[selectedBottle] = 0
-                selectedBottle = null
-            }
+        if (p.mouseY >= height - binHeight&& quantities[selectedBottle] > 0 ) {
+            statemachine.setState(emptyingBottleState)
             somethingPressed = true;
         }
 
         if (!somethingPressed) {
             selectedBottle = null
+            tookControl.map(_ => false)
         }
     }
 
-    function drawBottle(x, y, angle, bottleHeight, waterLevel, index) {
+    function drawBottle(x, y, angle, bottleHeight, waterLevel, index, canPour) {
         let visibleWaterLevel = Math.max(0, -(bottleWidth / 2) * p.sin(angle) + (bottleHeight - waterLevel) * p.cos(angle))
-        let isPouring = visibleWaterLevel === 0 && angle < p.HALF_PI && state === rotatingBottle
+        let isPouring = visibleWaterLevel === 0 && angle < p.HALF_PI && canPour
 
         p.push()
 
@@ -223,15 +331,13 @@ const sketch = (p) => {
         {
             p.fill(100, 150, 250)
             p.noStroke()
-            if(waterLevel > 0){
+            if (waterLevel > 0) {
                 p.rect(0, visibleWaterLevel, 1000, 1000);
-
             }
             p.fill("#28553C10")
             p.rect(0, -bottleWidth, 1000, 1000);
         }
         p.pop()
-
 
 
         p.push()
@@ -243,10 +349,10 @@ const sketch = (p) => {
 
             p.push()
             {
-                for(let i = 1 ; i < capacities[index]; i++){
+                for (let i = 1; i < capacities[index]; i++) {
                     p.strokeWeight(2)
                     p.stroke("black")
-                    p.line(0,i * literHeight,bottleWidth/3,i * literHeight)
+                    p.line(0, i * literHeight, bottleWidth / 3, i * literHeight)
                 }
             }
             p.pop()
@@ -267,7 +373,7 @@ const sketch = (p) => {
             p.translate(x, y)
             p.fill(100, 150, 250)
             p.noStroke()
-            p.rect(-pourWidth / 2, 0, pourWidth, bottlesY - y);
+            p.rect(-pourWidth / 2, 0, pourWidth, statemachine.currentState === emptyingBottleState?10000 : bottlesY - y);
             p.pop()
         }
     }
@@ -298,6 +404,25 @@ const sketch = (p) => {
         p.vertex(x, y);
         p.endShape();
     }
+
+    function lerpEase(start, end, t, easingType = 'linear', clamp = false) {
+        const easingFunctions = {
+            linear: t => t,
+            easeIn: t => t * t,
+            easeOut: t => t * (2 - t),
+            easeInOut: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+        };
+
+        if (clamp) {
+            t = Math.max(0, Math.min(1, t));
+        }
+
+        const ease = easingFunctions[easingType] || easingFunctions.linear;
+        const easedT = ease(t);
+
+        return p.lerp(start, end, easedT);
+    }
+
 }
 
 export function WaterJugsRiddle() {
