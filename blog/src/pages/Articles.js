@@ -20,7 +20,8 @@ export function Articles() {
             <Space amount="6vh"/>
             <ArticleBox title="WATER JUGS" subtitle="Learn more about one of the most asked interview riddles!"
                         isRight={false}
-                        link = "/WaterJugs"/>
+                        link = "/WaterJugs"
+            src = "imgs/water_jugs.png"/>
             <Space amount="25vh"/>
             <Section title={"GENERATORS"} subtitle={"Find out how to generate anything"}/>
             <Space amount="5vh"/>

@@ -197,7 +197,7 @@ const sketch = (p) => {
 
     const rotatingBottleBackState = new TimedState(() => {
     }, (time) => {
-        const duration = 25.0
+        const duration = 10.0
 
         bottleOverrides[selectedBottle] = {
             x: p.map(time, duration, 0, getXFromBottleIndex(selectedBottle), bottleOverrides[selectedBottle].x),
@@ -224,6 +224,7 @@ const sketch = (p) => {
                 movingToTapState
             ])
     }
+
     p.draw = () => {
         p.background("white")
         drawBottles()
@@ -235,6 +236,8 @@ const sketch = (p) => {
             p.scale(0.5)
             p.image(tapImg, width + 160, 0);
         }
+
+        drawDropZone(0, height*2-binHeight*2, width*2, binHeight*4, 0);
         p.pop()
     }
 
@@ -294,12 +297,12 @@ const sketch = (p) => {
                 break;
             }
         }
-        if (p.mouseY <= tapHeight && quantities[selectedBottle] < capacities[selectedBottle]) {
+        if (p.mouseY <= tapHeight && selectedBottle !== null && quantities[selectedBottle] < capacities[selectedBottle]) {
             statemachine.setState(movingToTapState)
             somethingPressed = true;
         }
 
-        if (p.mouseY >= height - binHeight&& quantities[selectedBottle] > 0 ) {
+        if (p.mouseY >= height - binHeight && selectedBottle !== null && quantities[selectedBottle] > 0 ) {
             statemachine.setState(emptyingBottleState)
             somethingPressed = true;
         }
@@ -423,15 +426,41 @@ const sketch = (p) => {
         return p.lerp(start, end, easedT);
     }
 
+
+    let lineSpacing = 20;
+
+    function drawDropZone(x, y, w, h, cutHeight) {
+        p.push();
+        {
+            p.beginClip() //CLIP
+            p.push()
+            {
+                p.rect(x, y, w, h);
+            }
+            p.pop()
+            p.endClip()
+
+
+            p.translate(x, y);
+            p.noFill();
+            p.stroke(173, 216, 230);
+            p.strokeWeight(4);
+
+            for (let i = 0; i < w + h; i += lineSpacing)
+                p.line(i, cutHeight, i - h, h);
+
+
+            p.stroke(0);
+        }
+        p.pop();
+    }
+
 }
 
 export function WaterJugsRiddle() {
     const p5ContainerRef = useRef();
     useEffect(() => {
         let p5Instance = new p5(sketch, p5ContainerRef.current)
-
-        //setP5Instance(p5Instance)
-
         return () => p5Instance.remove();
     }, [])
 
@@ -448,20 +477,14 @@ export function WaterJugsRiddle() {
             }}>
                 <div className="App" style={{marginTop: 5}} ref={p5ContainerRef}/>
                 <div className="card " style={cardStyle}>
-                    <h2 className={"card-title big-list-item"}>Rules</h2>
+                    <h2 className={"card-title big-list-item"}>Game</h2>
                     <p className={"card-text"}>
-                        You have two bottles: one with a capacity of 3 liters and another with a capacity of 5
-                        liters.<br/>
+                        <b>Can you get exactly 4 liters of water?</b><br/>
                         You can perform the following actions:<br/>
                         <ul>
-                            <li> Fill either bottle to its maximum capacity.</li>
-                            <li> Empty either bottle completely.</li>
-                            <li> Pour water from one bottle into the other until one of the bottles is either full or
-                                empty.
-                            </li>
+                            <li> Fill or empty the bottles</li>
+                            <li> Pour water from one bottle into the other </li>
                         </ul>
-
-                        How can you measure out exactly 4 liters of water?
                     </p>
                 </div>
 
